@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="desiSweep" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#86efac"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#0d281a"/>
+  <g fill="none" stroke="url(#desiSweep)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M26 20 H36 C40 20 42 23 42 27 V63"/>
+    <path d="M42 34 H82 C85.5 34 87.5 37 86.5 40.5 L81.5 59.5 C80.5 62.5 77.5 64.5 74 64.5 H42"/>
+    <path d="M52 38 V60 M52 38 H64 C71 38 75 42.5 75 49 C75 55.5 71 60 64 60 H52" stroke-width="5"/>
+    <circle cx="51" cy="76" r="5" fill="#16a34a"/>
+    <circle cx="72" cy="76" r="5" fill="#16a34a"/>
+  </g>
+</svg>
