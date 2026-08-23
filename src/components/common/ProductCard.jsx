@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 
 export default function ProductCard({ product, onViewDetails }) {
   const { addToCart } = useCart();
+  const [imgError, setImgError] = useState(false);
+
   const inStock = product.stock > 0;
   const isLowStock = inStock && product.stock <= 15;
 
   return (
     <div className="product-card-v2">
-      {/* Top Gradient Header Box */}
+      {/* Top Image Container Header */}
       <div className="card-thumb-header" onClick={() => onViewDetails(product.id)} style={{ cursor: 'pointer' }}>
         {product.badgeText && (
           <span className="card-badge-top">{product.badgeText}</span>
@@ -18,7 +20,17 @@ export default function ProductCard({ product, onViewDetails }) {
           <span className="card-badge-discount">-{product.discountPercent}%</span>
         )}
 
-        <span className="card-icon-art">{product.emoji}</span>
+        {product.image && !imgError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="card-real-img"
+            onError={() => setImgError(true)}
+            loading="lazy"
+          />
+        ) : (
+          <span className="card-icon-art">{product.emoji}</span>
+        )}
       </div>
 
       {/* Card Content Body */}
