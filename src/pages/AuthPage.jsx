@@ -132,7 +132,7 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
                   }}
                   placeholder="Enter your password"
                 />
-                <div className="error-msg">Incorrect email or password.</div>
+                <div className="error-msg">Enter your valid password.</div>
               </div>
 
               <button type="submit" className="auth-submit-btn">
