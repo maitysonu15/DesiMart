@@ -101,10 +101,6 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
                 Enter your details to access your account, past orders, and saved preferences.
               </p>
 
-              <div className="demo-hint" style={{ marginBottom: '16px' }}>
-                Demo Account — user@desimart.com / password123
-              </div>
-
               <div className={`form-group ${loginError ? 'invalid' : ''}`}>
                 <label className="auth-input-label">Email or Mobile Number</label>
                 <input
