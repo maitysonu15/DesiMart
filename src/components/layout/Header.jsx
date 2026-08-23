@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
-export default function Header({ currentView, navigateTo, onSearch }) {
+export default function Header({ currentView, navigateTo, onSearch, onOpenCart }) {
   const { currentUser, logout } = useAuth();
   const { cartCount } = useCart();
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,6 +13,14 @@ export default function Header({ currentView, navigateTo, onSearch }) {
       onSearch(searchTerm);
     }
     navigateTo('products');
+  };
+
+  const handleCartClick = () => {
+    if (onOpenCart) {
+      onOpenCart();
+    } else {
+      navigateTo('cart');
+    }
   };
 
   return (
@@ -91,7 +99,7 @@ export default function Header({ currentView, navigateTo, onSearch }) {
           {/* Cart Pill Button */}
           <button
             className="cart-pill-btn"
-            onClick={() => navigateTo('cart')}
+            onClick={handleCartClick}
           >
             🛒 Cart <span className="cart-badge-count">{cartCount}</span>
           </button>

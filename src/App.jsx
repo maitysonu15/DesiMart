@@ -7,6 +7,7 @@ import { OrderProvider } from './context/OrderContext';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Toast from './components/layout/Toast';
+import CartDrawer from './components/layout/CartDrawer';
 
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -27,6 +28,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [infoPageKey, setInfoPageKey] = useState('help');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   const navigateTo = (view) => {
     setCurrentView(view);
@@ -54,6 +56,14 @@ export default function App() {
     navigateTo('products');
   };
 
+  const handleOpenCartDrawer = () => {
+    setIsCartDrawerOpen(true);
+  };
+
+  const handleCloseCartDrawer = () => {
+    setIsCartDrawerOpen(false);
+  };
+
   return (
     <ToastProvider>
       <AuthProvider>
@@ -62,10 +72,18 @@ export default function App() {
             <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
               <Toast />
 
+              {/* Cart Drawer */}
+              <CartDrawer
+                isOpen={isCartDrawerOpen}
+                onClose={handleCloseCartDrawer}
+                navigateTo={navigateTo}
+              />
+
               <Header
                 currentView={currentView}
                 navigateTo={navigateTo}
                 onSearch={handleHeaderSearch}
+                onOpenCart={handleOpenCartDrawer}
               />
 
               <main style={{ flex: 1 }}>
@@ -74,6 +92,7 @@ export default function App() {
                     navigateTo={navigateTo}
                     onViewDetails={handleViewDetails}
                     onSelectCategory={handleSelectCategory}
+                    onOpenCart={handleOpenCartDrawer}
                   />
                 )}
 
