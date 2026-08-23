@@ -1,235 +1,250 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useOrders } from '../context/OrderContext';
+import { useToast } from '../context/ToastContext';
 
 export default function CheckoutPage({ navigateTo }) {
+  const { cart, cartCount, getCartTotals } = useCart();
   const { currentUser } = useAuth();
-  const { cart, products, getCartTotals } = useCart();
   const { placeOrder } = useOrders();
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    pin: '',
-    address: '',
-    city: '',
-    state: ''
-  });
-
-  const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    if (currentUser) {
-      setFormData((prev) => ({
-        ...prev,
-        name: currentUser.name || '',
-        email: currentUser.email || ''
-      }));
-    }
-  }, [currentUser]);
-
-  if (cart.length === 0) {
-    return (
-      <div className="container" style={{ paddingTop: '50px', paddingBottom: '70px' }}>
-        <div className="empty-state">
-          <h3>Your cart is empty</h3>
-          <p>Please add products to your cart before proceeding to checkout.</p>
-          <button className="btn btn-primary" onClick={() => navigateTo('products')}>
-            Back to Products
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const { showToast } = useToast();
 
   const totals = getCartTotals();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  // Delivery Address State
+  const [fullName, setFullName] = useState(currentUser?.name || '');
+  const [mobileNumber, setMobileNumber] = useState(currentUser?.mobile || '');
+  const [streetAddress, setStreetAddress] = useState(currentUser?.address || '');
+  const [city, setCity] = useState('');
+  const [pincode, setPincode] = useState('');
 
-  const handleSubmit = (e) => {
+  // Payment Option State (Default COD as shown in mockup)
+  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [fieldErrors, setFieldErrors] = useState({});
+
+  const handlePlaceOrderSubmit = (e) => {
     e.preventDefault();
-    const newErrors = {};
+    const errors = {};
 
-    if (!formData.name.trim()) newErrors.name = true;
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = true;
-    if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) newErrors.phone = true;
-    if (!formData.pin.trim() || !/^\d{6}$/.test(formData.pin)) newErrors.pin = true;
-    if (!formData.address.trim()) newErrors.address = true;
-    if (!formData.city.trim()) newErrors.city = true;
-    if (!formData.state.trim()) newErrors.state = true;
+    if (!fullName.trim()) errors.fullName = true;
+    if (!mobileNumber.trim() || !/^\d{10}$/.test(mobileNumber)) errors.mobileNumber = true;
+    if (!streetAddress.trim()) errors.streetAddress = true;
+    if (!city.trim()) errors.city = true;
+    if (!pincode.trim() || !/^\d{6}$/.test(pincode)) errors.pincode = true;
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      showToast('Please fill in all required delivery address fields correctly.', 'error');
       return;
     }
 
-    const orderRecord = placeOrder({
-      customer: formData,
+    const customer = {
+      fullName,
+      mobileNumber,
+      streetAddress,
+      city,
+      pincode,
+      paymentMethod
+    };
+
+    const newOrder = placeOrder({
+      customer,
       cartItems: cart,
       totals,
-      userEmail: currentUser ? currentUser.email : formData.email
+      userEmail: currentUser?.email
     });
 
-    if (orderRecord) {
+    if (newOrder) {
       navigateTo('success');
     }
   };
 
   return (
-    <div className="container" style={{ paddingTop: '36px', paddingBottom: '60px' }}>
-      <div className="section-head">
-        <div>
-          <h2>Checkout & Shipping</h2>
-          <p>Provide your delivery details to complete your order.</p>
+    <div className="checkout-modal-overlay">
+      <div className="checkout-modal-card">
+        {/* Header */}
+        <div className="checkout-modal-header">
+          <div className="checkout-header-title">Secure Desimart Checkout</div>
+          <button
+            className="checkout-close-btn"
+            onClick={() => navigateTo('products')}
+            aria-label="Close Checkout"
+          >
+            ✕
+          </button>
         </div>
-      </div>
 
-      <div className="checkout-layout">
-        <div className="checkout-form-card">
-          <h3>Delivery Information</h3>
+        {/* Form Body */}
+        <form onSubmit={handlePlaceOrderSubmit} noValidate className="checkout-modal-body">
+          <div className="checkout-two-col">
+            {/* Left Column: 1. Delivery Address */}
+            <div className="checkout-col-section">
+              <h3 className="checkout-section-title">
+                <span>📍</span> 1. Delivery Address
+              </h3>
 
-          <form onSubmit={handleSubmit} novalidate>
-            <div className="form-grid">
-              <div className={`form-group ${errors.name ? 'invalid' : ''}`}>
-                <label>Full Name</label>
+              <div className={`form-group ${fieldErrors.fullName ? 'invalid' : ''}`}>
+                <label className="auth-input-label">Full Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Rahul Sharma"
+                  className="auth-mint-input"
+                  value={fullName}
+                  onChange={(e) => {
+                    setFullName(e.target.value);
+                    setFieldErrors((prev) => ({ ...prev, fullName: false }));
+                  }}
+                  placeholder="e.g. John Doe"
                 />
-                <div className="error-msg">Full name is required.</div>
+                <div className="error-msg">Enter full name.</div>
               </div>
 
-              <div className={`form-group ${errors.email ? 'invalid' : ''}`}>
-                <label>Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="rahul@example.com"
-                />
-                <div className="error-msg">Valid email is required.</div>
-              </div>
-
-              <div className={`form-group ${errors.phone ? 'invalid' : ''}`}>
-                <label>Phone Number</label>
+              <div className={`form-group ${fieldErrors.mobileNumber ? 'invalid' : ''}`}>
+                <label className="auth-input-label">Mobile Number</label>
                 <input
                   type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="10-digit mobile number"
+                  className="auth-mint-input"
+                  value={mobileNumber}
+                  onChange={(e) => {
+                    setMobileNumber(e.target.value);
+                    setFieldErrors((prev) => ({ ...prev, mobileNumber: false }));
+                  }}
+                  placeholder="e.g. 9876543210"
                 />
-                <div className="error-msg">Enter a valid 10-digit phone number.</div>
+                <div className="error-msg">Enter valid 10-digit mobile number.</div>
               </div>
 
-              <div className={`form-group ${errors.pin ? 'invalid' : ''}`}>
-                <label>PIN Code</label>
+              <div className={`form-group ${fieldErrors.streetAddress ? 'invalid' : ''}`}>
+                <label className="auth-input-label">Street Address / House No.</label>
                 <input
                   type="text"
-                  name="pin"
-                  value={formData.pin}
-                  onChange={handleChange}
-                  placeholder="6-digit PIN code"
+                  className="auth-mint-input"
+                  value={streetAddress}
+                  onChange={(e) => {
+                    setStreetAddress(e.target.value);
+                    setFieldErrors((prev) => ({ ...prev, streetAddress: false }));
+                  }}
+                  placeholder="e.g. Flat 101, Sunflower Apartments"
                 />
-                <div className="error-msg">Enter a valid 6-digit PIN code.</div>
+                <div className="error-msg">Enter street address.</div>
               </div>
 
-              <div className={`form-group full ${errors.address ? 'invalid' : ''}`}>
-                <label>Street Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  placeholder="Flat / House No., Colony / Street"
-                />
-                <div className="error-msg">Address is required.</div>
-              </div>
+              <div className="checkout-city-pincode-grid">
+                <div className={`form-group ${fieldErrors.city ? 'invalid' : ''}`}>
+                  <label className="auth-input-label">City</label>
+                  <input
+                    type="text"
+                    className="auth-mint-input"
+                    value={city}
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                      setFieldErrors((prev) => ({ ...prev, city: false }));
+                    }}
+                    placeholder="e.g. Mumbai"
+                  />
+                  <div className="error-msg">Enter city.</div>
+                </div>
 
-              <div className={`form-group ${errors.city ? 'invalid' : ''}`}>
-                <label>City</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="e.g. Jaipur"
-                />
-                <div className="error-msg">City is required.</div>
-              </div>
-
-              <div className={`form-group ${errors.state ? 'invalid' : ''}`}>
-                <label>State</label>
-                <input
-                  type="text"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  placeholder="e.g. Rajasthan"
-                />
-                <div className="error-msg">State is required.</div>
+                <div className={`form-group ${fieldErrors.pincode ? 'invalid' : ''}`}>
+                  <label className="auth-input-label">Pincode</label>
+                  <input
+                    type="text"
+                    className="auth-mint-input"
+                    value={pincode}
+                    onChange={(e) => {
+                      setPincode(e.target.value);
+                      setFieldErrors((prev) => ({ ...prev, pincode: false }));
+                    }}
+                    placeholder="e.g. 400001"
+                  />
+                  <div className="error-msg">Enter 6-digit pincode.</div>
+                </div>
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary btn-block"
-              style={{ marginTop: '16px' }}
-            >
-              Place Order
-            </button>
-          </form>
-        </div>
+            {/* Right Column: 2. Payment Options */}
+            <div className="checkout-col-section">
+              <h3 className="checkout-section-title">
+                <span>💳</span> 2. Payment Options
+              </h3>
 
-        {/* Order Summary Side */}
-        <div className="summary-card">
-          <h3>Order Items</h3>
+              <div className="checkout-payment-methods-wrap">
+                {/* 1. COD */}
+                <div
+                  className={`checkout-payment-card ${paymentMethod === 'cod' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('cod')}
+                >
+                  <div className="payment-card-radio">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      checked={paymentMethod === 'cod'}
+                      onChange={() => setPaymentMethod('cod')}
+                    />
+                  </div>
+                  <div className="payment-card-info">
+                    <div className="payment-card-title">Cash on Delivery (COD)</div>
+                    <div className="payment-card-sub">Pay at your doorstep via Cash or UPI QR scan</div>
+                  </div>
+                </div>
 
-          {cart.map((c) => {
-            const p = products.find((x) => x.id === c.productId);
-            if (!p) return null;
-            return (
-              <div key={p.id} className="order-line">
-                <span>
-                  {p.name} <span className="qty">× {c.quantity}</span>
-                </span>
-                <span>₹{(p.price * c.quantity).toLocaleString('en-IN')}</span>
+                {/* 2. UPI */}
+                <div
+                  className={`checkout-payment-card ${paymentMethod === 'upi' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('upi')}
+                >
+                  <div className="payment-card-radio">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      checked={paymentMethod === 'upi'}
+                      onChange={() => setPaymentMethod('upi')}
+                    />
+                  </div>
+                  <div className="payment-card-info">
+                    <div className="payment-card-title">UPI (Google Pay / PhonePe / Paytm)</div>
+                    <div className="payment-card-sub">Instant, zero fee payment</div>
+                  </div>
+                </div>
+
+                {/* 3. Card / Net Banking */}
+                <div
+                  className={`checkout-payment-card ${paymentMethod === 'card' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('card')}
+                >
+                  <div className="payment-card-radio">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      checked={paymentMethod === 'card'}
+                      onChange={() => setPaymentMethod('card')}
+                    />
+                  </div>
+                  <div className="payment-card-info">
+                    <div className="payment-card-title">Credit / Debit Card / Net Banking</div>
+                    <div className="payment-card-sub">All major Indian banks supported</div>
+                  </div>
+                </div>
               </div>
-            );
-          })}
 
-          <div className="summary-row" style={{ marginTop: '14px' }}>
-            <span>Subtotal</span>
-            <span className="val">₹{totals.subtotal.toLocaleString('en-IN')}</span>
-          </div>
+              {/* Order Total Mint Box */}
+              <div className="checkout-total-mint-box">
+                <div className="total-mint-row">
+                  <span className="lbl">Order Total ({cartCount} items)</span>
+                  <span className="val">₹{totals.total.toLocaleString('en-IN')}</span>
+                </div>
+                <div className="security-note">
+                  🔒 Safe & Encrypted 256-bit payment demonstration.
+                </div>
+              </div>
 
-          <div className="summary-row">
-            <span>Delivery</span>
-            <span className="val">
-              {totals.delivery === 0 ? 'FREE' : `₹${totals.delivery}`}
-            </span>
+              {/* Confirm & Place Order Green Button */}
+              <button type="submit" className="checkout-confirm-btn">
+                Confirm & Place Order (₹{totals.total.toLocaleString('en-IN')})
+              </button>
+            </div>
           </div>
-
-          <div className="summary-row">
-            <span>Discount</span>
-            <span className="val">−₹{totals.discount.toLocaleString('en-IN')}</span>
-          </div>
-
-          <div className="summary-row total">
-            <span>Total Payable</span>
-            <span className="val">₹{totals.total.toLocaleString('en-IN')}</span>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );

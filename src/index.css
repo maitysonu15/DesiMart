@@ -578,7 +578,169 @@ header.navbar {
 }
 
 /* ============================================================
-   5. SLIDE-OUT 'MY DESIMART BASKET' DRAWER (Matching Mockup)
+   5. SECURE DESIMART CHECKOUT MODAL (Matching Mockup)
+   ============================================================ */
+.checkout-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(10, 40, 20, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.checkout-modal-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 860px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.25s ease;
+}
+
+.checkout-modal-header {
+  background: #EAFCEF;
+  padding: 18px 24px;
+  border-bottom: 1px solid #DCFCE7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.checkout-header-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0A502B;
+}
+.checkout-close-btn {
+  font-size: 1.1rem;
+  color: #64748B;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.checkout-close-btn:hover { color: #0F172A; background: #DCFCE7; }
+
+.checkout-modal-body {
+  padding: 28px 32px 32px;
+}
+
+.checkout-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 768px) {
+  .checkout-two-col { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.checkout-section-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkout-city-pincode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Payment Radio Option Cards */
+.checkout-payment-methods-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.checkout-payment-card {
+  border: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.checkout-payment-card.selected {
+  border-color: #16A34A;
+  background: #F0FDF4;
+  box-shadow: 0 0 0 1px #16A34A;
+}
+.payment-card-radio input {
+  margin-top: 3px;
+  accent-color: #16A34A;
+  width: 16px;
+  height: 16px;
+}
+.payment-card-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+.payment-card-sub {
+  font-size: 0.78rem;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+/* Order Total Mint Box */
+.checkout-total-mint-box {
+  background: #F0FDF4;
+  border: 1px solid #DCFCE7;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.total-mint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.total-mint-row .lbl {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+.total-mint-row .val {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0F172A;
+}
+.security-note {
+  font-size: 0.74rem;
+  color: #15803D;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Confirm & Place Order Green Button */
+.checkout-confirm-btn {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: #16A34A;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.checkout-confirm-btn:hover {
+  background: #15803D;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   6. SLIDE-OUT 'MY DESIMART BASKET' DRAWER
    ============================================================ */
 .cart-drawer-overlay {
   position: fixed;
@@ -875,7 +1037,7 @@ header.navbar {
 }
 
 /* ============================================================
-   6. AUTH MODAL CARD
+   7. AUTH MODAL CARD
    ============================================================ */
 .auth-modal-overlay {
   position: fixed;
@@ -1026,7 +1188,7 @@ header.navbar {
 .auth-link-action:hover { color: #0A502B; }
 
 /* ============================================================
-   7. SLEEK HORIZONTAL 4-COLUMN TRUST STRIP
+   8. SLEEK HORIZONTAL 4-COLUMN TRUST STRIP
    ============================================================ */
 .trust-strip-wrapper {
   background: #FFFFFF;
@@ -1077,7 +1239,7 @@ header.navbar {
 }
 
 /* ============================================================
-   8. FOOTER & TOAST
+   9. FOOTER & TOAST
    ============================================================ */
 footer.site-footer {
   background: #0A502B;
