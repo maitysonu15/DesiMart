@@ -3,38 +3,50 @@ import React from 'react';
 export default function Footer({ navigateTo, onCategoryClick, onInfoPageClick }) {
   return (
     <>
-      {/* Trust Strip */}
-      <section className="block" style={{ background: 'var(--paper)', borderTop: '1px solid var(--border)' }}>
+      {/* Sleek Horizontal 4-Column Trust Strip */}
+      <section className="trust-strip-wrapper">
         <div className="container">
-          <div className="section-head" style={{ marginBottom: '20px' }}>
-            <h2>Why Choose DesiMart?</h2>
-          </div>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="emoji">✅</div>
-              <h3>100% Quality Products</h3>
-              <p>Every product is handpicked and quality checked for genuine standards.</p>
+          <div className="trust-grid">
+            {/* 1. Express Delivery */}
+            <div className="trust-item-card">
+              <div className="trust-icon-box">🚚</div>
+              <div>
+                <div className="trust-item-title">Express Delivery</div>
+                <div className="trust-item-sub">Same-day in metros, free over ₹499</div>
+              </div>
             </div>
-            <div className="why-card">
-              <div className="emoji">💰</div>
-              <h3>Affordable Pricing</h3>
-              <p>Fair everyday prices across festive picks and daily essential grocery.</p>
+
+            {/* 2. 100% Authentic Quality */}
+            <div className="trust-item-card">
+              <div className="trust-icon-box">🛡️</div>
+              <div>
+                <div className="trust-item-title">100% Authentic Quality</div>
+                <div className="trust-item-sub">Direct from verified farmers & brands</div>
+              </div>
             </div>
-            <div className="why-card">
-              <div className="emoji">🚚</div>
-              <h3>Express Dispatch</h3>
-              <p>Quick dispatch with live order tracking straight to your doorstep.</p>
+
+            {/* 3. Secure Checkout */}
+            <div className="trust-item-card">
+              <div className="trust-icon-box">🔒</div>
+              <div>
+                <div className="trust-item-title">Secure Checkout</div>
+                <div className="trust-item-sub">UPI, Cards & Cash on Delivery</div>
+              </div>
             </div>
-            <div className="why-card">
-              <div className="emoji">🔒</div>
-              <h3>Secure Checkout</h3>
-              <p>Protected transactions with encrypted payment processing.</p>
+
+            {/* 4. Easy 7-Day Returns */}
+            <div className="trust-item-card">
+              <div className="trust-icon-box">🔄</div>
+              <div>
+                <div className="trust-item-title">Easy 7-Day Returns</div>
+                <div className="trust-item-sub">No questions asked doorstep pickup</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main Footer */}
+      {/* Main Site Footer */}
       <footer className="site-footer">
         <div className="container footer-inner">
           <div>
@@ -77,7 +89,7 @@ export default function Footer({ navigateTo, onCategoryClick, onInfoPageClick })
                 <button onClick={() => onCategoryClick('Home & Kitchen')}>Home & Kitchen</button>
               </li>
               <li>
-                <button onClick={() => onCategoryClick('Grocery')}>Grocery & Staples</button>
+                <button onClick={() => onCategoryClick('Grocery & Staples')}>Grocery & Staples</button>
               </li>
               <li>
                 <button onClick={() => onCategoryClick('Beauty')}>Beauty & Wellness</button>

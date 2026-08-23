@@ -578,13 +578,63 @@ header.navbar {
 }
 
 /* ============================================================
-   5. FOOTER & TOAST
+   5. SLEEK HORIZONTAL 4-COLUMN TRUST STRIP (Why Choose DesiMart)
+   ============================================================ */
+.trust-strip-wrapper {
+  background: #FFFFFF;
+  border-top: 1px solid #E2E8F0;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 28px 0;
+  margin-top: 40px;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .trust-grid { grid-template-columns: 1fr; }
+}
+
+.trust-item-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.trust-icon-box {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  background: #DCFCE7;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+}
+.trust-item-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.2;
+}
+.trust-item-sub {
+  font-size: 0.78rem;
+  color: #64748B;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   6. FOOTER & TOAST
    ============================================================ */
 footer.site-footer {
   background: #0A502B;
   color: #E2E8F0;
   padding: 40px 0 20px;
-  margin-top: 60px;
 }
 .footer-inner {
   max-width: 1200px;
