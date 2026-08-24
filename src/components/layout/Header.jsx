@@ -87,13 +87,19 @@ export default function Header({ currentView, navigateTo, onSearch, onOpenCart }
               Sign In
             </button>
           ) : (
-            <button
-              className="nav-link-btn"
-              onClick={logout}
-              title="Click to logout"
-            >
-              Hi, {currentUser.name.split(' ')[0]} (Logout)
-            </button>
+            <>
+              <span className="nav-user-greeting">
+                Hi, {currentUser.name.split(' ')[0]}
+              </span>
+
+              <button
+                className="nav-link-btn logout-tab-btn"
+                onClick={logout}
+                title="Logout of your account"
+              >
+                Logout
+              </button>
+            </>
           )}
 
           {/* Cart Pill Button */}

@@ -147,7 +147,7 @@ header.navbar {
 .nav-links-wrap {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 .nav-link-btn {
   font-size: 0.88rem;
@@ -163,6 +163,29 @@ header.navbar {
   color: #15803D;
   font-weight: 700;
 }
+
+.nav-user-greeting {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0A502B;
+  background: #F0FDF4;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #DCFCE7;
+}
+
+.logout-tab-btn {
+  color: #EF4444;
+  font-weight: 700;
+  border: 1px solid #FEE2E2;
+  background: #FEF2F2;
+}
+.logout-tab-btn:hover {
+  background: #EF4444;
+  color: #FFFFFF;
+  border-color: #EF4444;
+}
+
 .deals-pill-btn {
   background: #FFEDD5;
   color: #C2410C;
@@ -541,7 +564,6 @@ header.navbar {
   font-size: 1.2rem;
   font-weight: 800;
   text-align: center;
-
 }
 
 /* ============================================================
