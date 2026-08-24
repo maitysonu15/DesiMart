@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { CATEGORIES } from '../data/categories';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/common/ProductCard';
-import CategoryCard from '../components/common/CategoryCard';
 
 export default function ProductsPage({
   onViewDetails,
@@ -57,32 +56,37 @@ export default function ProductsPage({
 
   if (sortOption === 'price-asc') filtered.sort((a, b) => a.price - b.price);
   else if (sortOption === 'price-desc') filtered.sort((a, b) => b.price - a.price);
-  else if (sortOption === 'name-asc') filtered.sort((a, b) => a.name.localeCompare(b.name));
+  else if (sortOption === 'name-asc') filtered.sort((a, b) => a.name.localeCompare(a.name));
   else if (sortOption === 'name-desc') filtered.sort((a, b) => b.name.localeCompare(a.name));
 
   return (
     <div className="container" style={{ paddingTop: '36px', paddingBottom: '60px' }}>
-      <div className="section-head">
-        <div>
-          <h2>All Marketplace Products</h2>
-          <p>Search, filter by category or stock status, and sort to find your products.</p>
-        </div>
+      {/* Section Heading matching mockup */}
+      <div style={{ marginBottom: '24px' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0F172A', marginBottom: '4px' }}>
+          All Products
+        </h2>
+        <p style={{ color: '#64748B', fontSize: '0.95rem' }}>
+          Search, filter and sort to find exactly what you need.
+        </p>
       </div>
 
-      {/* Toolbar */}
-      <div className="toolbar">
+      {/* Single White Filter Card Toolbar matching mockup */}
+      <div className="products-toolbar-card">
         <input
           type="search"
-          placeholder="Search products, brands, or categories..."
+          className="products-search-input"
+          placeholder="Search products..."
           value={search}
           onChange={handleSearchInput}
         />
 
         <select
+          className="products-select-pill"
           value={selectedCat}
           onChange={(e) => setSelectedCat(e.target.value)}
         >
-          <option value="all">All Categories ({CATEGORIES.length})</option>
+          <option value="all">All Categories</option>
           {CATEGORIES.map((cat) => (
             <option key={cat.id} value={cat.name}>
               {cat.name}
@@ -91,6 +95,7 @@ export default function ProductsPage({
         </select>
 
         <select
+          className="products-select-pill"
           value={availability}
           onChange={(e) => setAvailability(e.target.value)}
         >
@@ -100,47 +105,51 @@ export default function ProductsPage({
         </select>
 
         <select
+          className="products-select-pill"
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
         >
-          <option value="default">Sort: Recommended</option>
+          <option value="default">Sort: Default</option>
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
           <option value="name-asc">Name: A to Z</option>
           <option value="name-desc">Name: Z to A</option>
         </select>
 
-        <span className="result-count">
+        <span className="products-count-text">
           {filtered.length} product{filtered.length === 1 ? '' : 's'} found
         </span>
       </div>
 
-      {/* Category Rail */}
-      <div className="cat-grid" style={{ marginBottom: '28px' }}>
+      {/* Category Cards Grid matching mockup */}
+      <div className="cat-grid-scroll">
         <button
-          className={`cat-card ${selectedCat === 'all' ? 'active' : ''}`}
+          className={`cat-card-v2 ${selectedCat === 'all' ? 'active' : ''}`}
           onClick={() => setSelectedCat('all')}
         >
-          <div className="emoji">🛍️</div>
-          <div className="name">All Items</div>
+          <div className="cat-card-emoji">🛍️</div>
+          <div className="cat-card-name">All Items</div>
         </button>
+
         {CATEGORIES.map((cat) => (
-          <CategoryCard
+          <button
             key={cat.id}
-            category={cat}
-            isActive={selectedCat === cat.name}
-            onClick={(name) => setSelectedCat(name)}
-          />
+            className={`cat-card-v2 ${selectedCat === cat.name ? 'active' : ''}`}
+            onClick={() => setSelectedCat(cat.name)}
+          >
+            <div className="cat-card-emoji">{cat.icon}</div>
+            <div className="cat-card-name">{cat.name}</div>
+          </button>
         ))}
       </div>
 
       {/* Products Grid */}
       {filtered.length === 0 ? (
-        <div className="empty-state">
-          <div className="emoji">🔍</div>
-          <h3>No matching products found</h3>
-          <p>Try adjusting your search terms or category filters.</p>
-          <button className="btn btn-primary" onClick={resetFilters}>
+        <div className="empty-state" style={{ background: '#FFFFFF', padding: '50px 20px', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'center' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🔍</div>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0F172A', marginBottom: '6px' }}>No matching products found</h3>
+          <p style={{ color: '#64748B', marginBottom: '20px' }}>Try adjusting your search terms or category filters.</p>
+          <button className="auth-submit-btn" style={{ maxWidth: '200px' }} onClick={resetFilters}>
             Reset All Filters
           </button>
         </div>
