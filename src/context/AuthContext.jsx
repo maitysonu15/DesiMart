@@ -7,14 +7,16 @@ export function AuthProvider({ children }) {
   const { showToast } = useToast();
 
   const [users, setUsers] = useState([
-    { name: 'Demo User', email: 'user@desimart.com', password: 'password123' }
+    { name: 'Demo User', email: 'user@desimart.com', password: 'password123', mobile: '9876543210' }
   ]);
 
   const [currentUser, setCurrentUser] = useState(null);
 
-  const login = (email, password) => {
-    const cleanEmail = email.trim().toLowerCase();
-    const match = users.find((u) => u.email === cleanEmail && u.password === password);
+  const login = (emailOrMobile, password) => {
+    const cleanIdentifier = emailOrMobile.trim().toLowerCase();
+    const match = users.find(
+      (u) => (u.email === cleanIdentifier || u.mobile === cleanIdentifier) && u.password === password
+    );
 
     if (match) {
       setCurrentUser(match);
@@ -22,12 +24,12 @@ export function AuthProvider({ children }) {
       showToast(`Welcome back, ${firstName}!`, 'success');
       return true;
     } else {
-      showToast('Invalid email or password.', 'error');
+      showToast('Enter your valid password.', 'error');
       return false;
     }
   };
 
-  const register = (name, email, password) => {
+  const register = (name, email, password, mobile = '') => {
     const cleanEmail = email.trim().toLowerCase();
     const exists = users.some((u) => u.email === cleanEmail);
 
@@ -36,9 +38,10 @@ export function AuthProvider({ children }) {
       return false;
     }
 
-    const newUser = { name: name.trim(), email: cleanEmail, password };
+    const newUser = { name: name.trim(), email: cleanEmail, password, mobile };
     setUsers((prev) => [...prev, newUser]);
-    showToast('Account created successfully! Please log in.', 'success');
+    setCurrentUser(newUser);
+    showToast(`Welcome to DesiMart, ${name.trim().split(' ')[0]}! Account created.`, 'success');
     return true;
   };
 

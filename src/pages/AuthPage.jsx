@@ -93,10 +93,8 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
       return;
     }
 
-    const success = register(regName, regEmail, regPassword);
+    const success = register(regName, regEmail, regPassword, regMobile);
     if (success) {
-      showToast('DesiMart Account created successfully!', 'success');
-      login(regEmail, regPassword);
       navigateTo('products');
     }
   };
