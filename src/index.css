@@ -1438,6 +1438,26 @@ header.navbar {
   padding: 24px 28px 28px;
 }
 
+/* Form Validation Styles */
+.form-group {
+  margin-bottom: 16px;
+  position: relative;
+}
+.form-group .error-msg {
+  display: none;
+  font-size: 0.78rem;
+  color: #EF4444;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.form-group.invalid .auth-mint-input {
+  border-color: #EF4444 !important;
+  background: #FEF2F2 !important;
+}
+.form-group.invalid .error-msg {
+  display: block;
+}
+
 /* Segmented Tab Switcher */
 .auth-tab-track {
   background: #F1F5F9;

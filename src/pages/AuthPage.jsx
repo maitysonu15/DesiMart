@@ -126,6 +126,8 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
               className={`auth-tab-btn ${activeTab === 'login' ? 'active' : ''}`}
               onClick={() => {
                 setActiveTab('login');
+                setLoginError(false);
+                setRegErrors({});
                 setRegStep(1);
               }}
             >
@@ -134,7 +136,12 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
 
             <button
               className={`auth-tab-btn ${activeTab === 'register' ? 'active' : ''}`}
-              onClick={() => setActiveTab('register')}
+              onClick={() => {
+                setActiveTab('register');
+                setLoginError(false);
+                setRegErrors({});
+                setRegStep(1);
+              }}
             >
               Create Account (Sign Up)
             </button>
