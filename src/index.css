@@ -328,7 +328,167 @@ header.navbar {
 }
 
 /* ============================================================
-   3. ALL PRODUCTS TOOLBAR & CATEGORY CARDS (Matching Mockup)
+   3. PRODUCT DETAIL PAGE (Matching Mockup media_1787570599220.png)
+   ============================================================ */
+.pdp-back-btn {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #15803D;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease;
+}
+.pdp-back-btn:hover { color: #0A502B; text-decoration: underline; }
+
+.pdp-split-container {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .pdp-split-container { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.pdp-image-box {
+  width: 100%;
+  height: 420px;
+  background: #EAF7EE;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid #DCFCE7;
+}
+.pdp-real-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pdp-emoji-art {
+  font-size: 6rem;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+}
+
+.pdp-info-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.pdp-category-tag {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #1D4ED8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.pdp-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.pdp-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #15803D;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pdp-orig-price {
+  font-size: 1.1rem;
+  color: #94A3B8;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.pdp-rating {
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+.pdp-rating .stars { color: #D97706; font-weight: 800; }
+.pdp-rating .val { font-weight: 800; color: #D97706; }
+.pdp-rating .reviews { color: #64748B; font-weight: 500; }
+
+.pdp-desc {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+
+.pdp-stock-status {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+.pdp-stock-status.in-stock { color: #16A34A; }
+.pdp-stock-status.out-of-stock { color: #EF4444; }
+
+.pdp-qty-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.pdp-qty-wrap .qty-lbl {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.pdp-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pdp-add-cart-btn {
+  background: #15803D;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 13px 32px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.pdp-add-cart-btn:hover:not(:disabled) {
+  background: #166534;
+  transform: translateY(-1px);
+}
+
+.pdp-buy-now-btn {
+  background: #FAB839;
+  color: #0F172A;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 13px 32px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(250, 184, 57, 0.3);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.pdp-buy-now-btn:hover {
+  background: #F59E0B;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   4. ALL PRODUCTS TOOLBAR & CATEGORY CARDS
    ============================================================ */
 .products-toolbar-card {
   background: #FFFFFF;
@@ -434,7 +594,7 @@ header.navbar {
 }
 
 /* ============================================================
-   4. AISLE FILTER BAR (Below Hero)
+   5. AISLE FILTER BAR (Below Hero)
    ============================================================ */
 .aisle-filter-bar {
   background: #FFFFFF;
@@ -521,7 +681,7 @@ header.navbar {
 }
 
 /* ============================================================
-   5. PRODUCT CARDS & REAL PHOTOGRAPHY GRID
+   6. PRODUCT CARDS & REAL PHOTOGRAPHY GRID
    ============================================================ */
 .product-grid {
   display: grid;
@@ -684,7 +844,7 @@ header.navbar {
 }
 
 /* ============================================================
-   6. SECURE DESIMART CHECKOUT MODAL
+   7. SECURE DESIMART CHECKOUT MODAL
    ============================================================ */
 .checkout-modal-overlay {
   position: fixed;
@@ -846,7 +1006,7 @@ header.navbar {
 }
 
 /* ============================================================
-   7. SLIDE-OUT 'MY DESIMART BASKET' DRAWER
+   8. SLIDE-OUT 'MY DESIMART BASKET' DRAWER
    ============================================================ */
 .cart-drawer-overlay {
   position: fixed;
@@ -1143,7 +1303,7 @@ header.navbar {
 }
 
 /* ============================================================
-   8. AUTH MODAL CARD
+   9. AUTH MODAL CARD
    ============================================================ */
 .auth-modal-overlay {
   position: fixed;
@@ -1294,7 +1454,7 @@ header.navbar {
 .auth-link-action:hover { color: #0A502B; }
 
 /* ============================================================
-   9. SLEEK HORIZONTAL 4-COLUMN TRUST STRIP
+   10. SLEEK HORIZONTAL 4-COLUMN TRUST STRIP
    ============================================================ */
 .trust-strip-wrapper {
   background: #FFFFFF;
@@ -1345,7 +1505,7 @@ header.navbar {
 }
 
 /* ============================================================
-   10. FOOTER & TOAST
+   11. FOOTER & TOAST
    ============================================================ */
 footer.site-footer {
   background: #0A502B;

@@ -5,6 +5,7 @@ import ProductCard from '../components/common/ProductCard';
 export default function ProductDetailPage({ productId, navigateTo, onViewDetails }) {
   const { products, addToCart } = useCart();
   const [qty, setQty] = useState(1);
+  const [imgError, setImgError] = useState(false);
 
   const product = products.find((p) => p.id === productId);
 
@@ -14,7 +15,7 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
         <div className="empty-state">
           <h3>Product Not Found</h3>
           <p>The product you are looking for may have been updated or removed.</p>
-          <button className="btn btn-primary" onClick={() => navigateTo('products')}>
+          <button className="auth-submit-btn" style={{ maxWidth: '200px' }} onClick={() => navigateTo('products')}>
             Back to Products
           </button>
         </div>
@@ -31,70 +32,98 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
     setQty((prev) => Math.min(product.stock, Math.max(1, prev + delta)));
   };
 
+  const handleAddToCart = () => {
+    addToCart(product.id, qty);
+  };
+
   const handleBuyNow = () => {
-    addToCart(product.id, qty, true);
-    navigateTo('cart');
+    addToCart(product.id, qty);
+    navigateTo('checkout');
   };
 
   return (
-    <div className="container" style={{ paddingTop: '36px', paddingBottom: '60px' }}>
-      <div className="breadcrumb">
-        <button onClick={() => navigateTo('products')}>← Back to Products</button>
-      </div>
+    <div className="container" style={{ paddingTop: '28px', paddingBottom: '60px' }}>
+      {/* Back to Products Link matching mockup */}
+      <button className="pdp-back-btn" onClick={() => navigateTo('products')}>
+        ← Back to Products
+      </button>
 
-      <div className="details-wrap">
-        <div className="details-image">{product.emoji}</div>
+      {/* 2-Column Split Layout matching mockup (media_1787570599220.png) */}
+      <div className="pdp-split-container">
+        {/* Left Column: Soft Mint Image Container Card */}
+        <div className="pdp-image-box">
+          {product.image && !imgError ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="pdp-real-photo"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <span className="pdp-emoji-art">{product.emoji}</span>
+          )}
+        </div>
 
-        <div>
-          <div className="details-cat">{product.category}</div>
-          <h1 className="details-title">{product.name}</h1>
-          <div className="details-price">₹{product.price.toLocaleString('en-IN')}</div>
-          <div className="details-rating">
-            ★★★★☆ {product.rating.toFixed(1)} <span className="count">({product.reviews} reviews)</span>
+        {/* Right Column: Product Information & CTAs */}
+        <div className="pdp-info-content">
+          <div className="pdp-category-tag">{product.category.toUpperCase()}</div>
+
+          <h1 className="pdp-title">{product.name}</h1>
+
+          <div className="pdp-price">
+            ₹{product.price.toLocaleString('en-IN')}
+            {product.originalPrice && (
+              <span className="pdp-orig-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+            )}
           </div>
 
-          <p className="details-desc">{product.description}</p>
+          <div className="pdp-rating">
+            <span className="stars">★★★★☆</span>{' '}
+            <span className="val">{product.rating.toFixed(1)}</span>{' '}
+            <span className="reviews">({product.reviews} reviews)</span>
+          </div>
 
-          <div className={`details-stock ${inStock ? 'ok' : 'low'}`}>
-            {inStock ? `${product.stock} units left in stock` : 'Currently out of stock'}
+          <p className="pdp-desc">{product.description}</p>
+
+          <div className={`pdp-stock-status ${inStock ? 'in-stock' : 'out-of-stock'}`}>
+            {inStock ? `${product.stock} units in stock` : 'Currently out of stock'}
           </div>
 
           {inStock ? (
             <>
-              <div className="qty-row">
-                <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>Quantity:</span>
-                <div className="qty-control">
+              {/* Mint Quantity Control */}
+              <div className="pdp-qty-wrap">
+                <span className="qty-lbl">Quantity:</span>
+                <div className="qty-picker-mint">
                   <button onClick={() => handleQuantityChange(-1)}>−</button>
-                  <span>{qty}</span>
+                  <span className="qty-val">{qty}</span>
                   <button onClick={() => handleQuantityChange(1)}>+</button>
                 </div>
               </div>
 
-              <div className="details-actions">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => addToCart(product.id, qty)}
-                >
+              {/* Action Buttons Row matching mockup */}
+              <div className="pdp-actions-row">
+                <button className="pdp-add-cart-btn" onClick={handleAddToCart}>
                   Add to Cart
                 </button>
-                <button className="btn btn-accent" onClick={handleBuyNow}>
+                <button className="pdp-buy-now-btn" onClick={handleBuyNow}>
                   Buy Now
                 </button>
               </div>
             </>
           ) : (
-            <button className="btn btn-ghost" disabled>
+            <button className="pdp-add-cart-btn" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
               Out of Stock
             </button>
           )}
         </div>
       </div>
 
-      {/* Related Products */}
+      {/* Related Products Grid */}
       {relatedProducts.length > 0 && (
-        <section className="block" style={{ marginTop: '40px' }}>
-          <div className="section-head">
-            <div>
+        <section style={{ marginTop: '50px' }}>
+          <div className="section-main-header">
+            <div className="section-title-wrap">
               <h2>Related in {product.category}</h2>
             </div>
           </div>
