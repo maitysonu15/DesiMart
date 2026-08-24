@@ -19,12 +19,15 @@ export default function CheckoutPage({ navigateTo }) {
   const [city, setCity] = useState('');
   const [pincode, setPincode] = useState('');
 
-  // Payment Option State (Default COD as shown in mockup)
+  // Payment Option State (Default COD)
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [fieldErrors, setFieldErrors] = useState({});
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const handlePlaceOrderSubmit = (e) => {
     e.preventDefault();
+    if (isPlacingOrder) return;
+
     const errors = {};
 
     if (!fullName.trim()) errors.fullName = true;
@@ -39,6 +42,8 @@ export default function CheckoutPage({ navigateTo }) {
       return;
     }
 
+    setIsPlacingOrder(true);
+
     const customer = {
       fullName,
       mobileNumber,
@@ -48,16 +53,20 @@ export default function CheckoutPage({ navigateTo }) {
       paymentMethod
     };
 
-    const newOrder = placeOrder({
-      customer,
-      cartItems: cart,
-      totals,
-      userEmail: currentUser?.email
-    });
+    setTimeout(() => {
+      const newOrder = placeOrder({
+        customer,
+        cartItems: cart,
+        totals,
+        userEmail: currentUser?.email
+      });
 
-    if (newOrder) {
-      navigateTo('success');
-    }
+      if (newOrder) {
+        navigateTo('success');
+      } else {
+        setIsPlacingOrder(false);
+      }
+    }, 1200);
   };
 
   return (
@@ -238,9 +247,16 @@ export default function CheckoutPage({ navigateTo }) {
                 </div>
               </div>
 
-              {/* Confirm & Place Order Green Button */}
-              <button type="submit" className="checkout-confirm-btn">
-                Confirm & Place Order (₹{totals.total.toLocaleString('en-IN')})
+              {/* Confirm Order Button with Loading State */}
+              <button
+                type="submit"
+                className="checkout-confirm-btn"
+                disabled={isPlacingOrder}
+                style={{ opacity: isPlacingOrder ? 0.75 : 1 }}
+              >
+                {isPlacingOrder
+                  ? '⏳ Waiting for place order...'
+                  : `Confirm Order (₹${totals.total.toLocaleString('en-IN')})`}
               </button>
             </div>
           </div>
