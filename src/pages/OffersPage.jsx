@@ -3,14 +3,14 @@ import { useCart } from '../context/CartContext';
 import ProductCard from '../components/common/ProductCard';
 
 export default function OffersPage({ onViewDetails, navigateTo }) {
-  const { products } = useCart();
+  const { products, applyPromo, promoApplied } = useCart();
   const offerItems = products.filter((p) => p.isOffer || p.price <= 500);
 
   return (
     <div className="container" style={{ paddingTop: '36px', paddingBottom: '60px' }}>
       <div
         style={{
-          background: 'linear-gradient(135deg, var(--green-tint), #FFF3D6)',
+          background: 'linear-gradient(135deg, #DCFCE7, #FFF3D6)',
           border: '1px solid #CFE6D6',
           borderRadius: 'var(--radius-lg)',
           padding: '30px',
@@ -22,21 +22,27 @@ export default function OffersPage({ onViewDetails, navigateTo }) {
         <p style={{ color: 'var(--ink-dim)', maxWidth: '560px' }}>
           Discover exceptional festive values across daily essentials, spices, stationery, accessories, and beauty items.
         </p>
-        <div style={{ marginTop: '16px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <span
+        <div style={{ marginTop: '16px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={() => applyPromo('DESI10')}
             style={{
               fontFamily: 'var(--font-mono)',
-              fontWeight: 700,
-              background: 'var(--paper)',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              border: '1px solid var(--border)'
+              fontWeight: 800,
+              background: promoApplied ? '#15803D' : '#FFFFFF',
+              color: promoApplied ? '#FFFFFF' : '#15803D',
+              padding: '8px 18px',
+              borderRadius: '999px',
+              border: '1.5px solid #16A34A',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+              transition: 'all 0.15s ease'
             }}
           >
-            Use Code: DESI10
-          </span>
-          <span style={{ fontSize: '0.88rem', color: 'var(--green-dark)', fontWeight: 600 }}>
-            Extra 10% OFF at Checkout!
+            {promoApplied ? '✓ Code DESI10 Applied!' : 'Use Code: DESI10'}
+          </button>
+          <span style={{ fontSize: '0.9rem', color: '#166534', fontWeight: 700 }}>
+            {promoApplied ? '🎉 10% Discount Active across all items!' : '👈 Click to apply Extra 10% OFF at Checkout!'}
           </span>
         </div>
       </div>

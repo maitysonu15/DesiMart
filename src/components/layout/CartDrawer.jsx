@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -10,11 +10,14 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
     cartCount,
     updateCartQty,
     removeFromCart,
+    applyPromo,
+    promoApplied,
     getCartTotals
   } = useCart();
 
   const { currentUser } = useAuth();
   const { showToast } = useToast();
+  const [promoInput, setPromoInput] = useState('');
 
   if (!isOpen) return null;
 
@@ -47,6 +50,12 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
     }
     onClose();
     navigateTo('checkout');
+  };
+
+  const handleApplyCoupon = (e) => {
+    e.preventDefault();
+    const codeToUse = promoInput.trim() || 'DESI10';
+    applyPromo(codeToUse);
   };
 
   return (
@@ -171,6 +180,28 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
         {/* Drawer Footer (Only Non-Empty) */}
         {cart.length > 0 && (
           <div className="cart-drawer-footer">
+            {/* Promo / Coupon Box */}
+            <form onSubmit={handleApplyCoupon} className="drawer-promo-box">
+              {promoApplied ? (
+                <div className="promo-applied-badge">
+                  <span>🎉 <strong>DESI10</strong> Applied — 10% Discount Active!</span>
+                </div>
+              ) : (
+                <div className="drawer-promo-row">
+                  <input
+                    type="text"
+                    placeholder="Coupon code (e.g. DESI10)"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    className="drawer-promo-input"
+                  />
+                  <button type="submit" className="drawer-promo-btn">
+                    Apply
+                  </button>
+                </div>
+              )}
+            </form>
+
             <div className="cart-summary-line">
               <span>Items Subtotal</span>
               <span className="val">₹{totals.subtotal.toLocaleString('en-IN')}</span>

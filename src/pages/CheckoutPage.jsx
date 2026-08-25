@@ -5,7 +5,7 @@ import { useOrders } from '../context/OrderContext';
 import { useToast } from '../context/ToastContext';
 
 export default function CheckoutPage({ navigateTo }) {
-  const { cart, cartCount, getCartTotals } = useCart();
+  const { cart, cartCount, getCartTotals, applyPromo, promoApplied } = useCart();
   const { currentUser } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useToast();
@@ -32,6 +32,7 @@ export default function CheckoutPage({ navigateTo }) {
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [fieldErrors, setFieldErrors] = useState({});
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [promoInput, setPromoInput] = useState('');
 
   const handlePlaceOrderSubmit = (e) => {
     e.preventDefault();
@@ -76,6 +77,11 @@ export default function CheckoutPage({ navigateTo }) {
         setIsPlacingOrder(false);
       }
     }, 1200);
+  };
+
+  const handleApplyCoupon = (e) => {
+    e.preventDefault();
+    applyPromo(promoInput.trim() || 'DESI10');
   };
 
   return (
@@ -180,10 +186,10 @@ export default function CheckoutPage({ navigateTo }) {
               </div>
             </div>
 
-            {/* Right Column: 2. Payment Options */}
+            {/* Right Column: 2. Payment Options & Promo Code */}
             <div className="checkout-col-section">
               <h3 className="checkout-section-title">
-                <span>💳</span> 2. Payment Options
+                <span>💳</span> 2. Payment Options & Coupons
               </h3>
 
               <div className="checkout-payment-methods-wrap">
@@ -243,6 +249,32 @@ export default function CheckoutPage({ navigateTo }) {
                     <div className="payment-card-sub">All major Indian banks supported</div>
                   </div>
                 </div>
+              </div>
+
+              {/* Promo / Coupon Box */}
+              <div className="drawer-promo-box" style={{ marginBottom: '16px' }}>
+                {promoApplied ? (
+                  <div className="promo-applied-badge">
+                    <span>🎉 <strong>DESI10</strong> Applied — 10% Discount Active!</span>
+                  </div>
+                ) : (
+                  <div className="drawer-promo-row">
+                    <input
+                      type="text"
+                      placeholder="Coupon Code (e.g. DESI10)"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value)}
+                      className="drawer-promo-input"
+                    />
+                    <button
+                      type="button"
+                      className="drawer-promo-btn"
+                      onClick={handleApplyCoupon}
+                    >
+                      Apply Coupon
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Order Total Mint Box */}
