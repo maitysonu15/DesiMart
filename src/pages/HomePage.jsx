@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { CATEGORIES } from '../data/categories';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/common/ProductCard';
 
-export default function HomePage({ navigateTo, onViewDetails }) {
+export default function HomePage({ navigateTo, onViewDetails, onOpenProfile }) {
   const { products } = useCart();
+  const { currentUser } = useAuth();
+  const { wishlistCount } = useWishlist();
   const [activeCategory, setActiveCategory] = useState('all');
   const [sortOption, setSortOption] = useState('popular');
 
@@ -32,6 +36,31 @@ export default function HomePage({ navigateTo, onViewDetails }) {
     <div className="container" style={{ paddingBottom: '60px' }}>
       {/* Hero Banner */}
       <div className="hero-card">
+        {/* Top Right User Profile Box */}
+        <div
+          className="hero-profile-card-topright"
+          onClick={onOpenProfile}
+          title="Click to view full Profile & Wishlist details"
+        >
+          <div className="hero-profile-avatar">
+            {currentUser ? currentUser.name.charAt(0).toUpperCase() : '👤'}
+          </div>
+          <div className="hero-profile-info">
+            <div className="hero-profile-name">
+              {currentUser ? currentUser.name : 'Sonu Maity'}
+            </div>
+            <div className="hero-profile-sub">
+              📱 {currentUser?.mobile || '9876543210'} • ✉️ {currentUser?.email || 'user@desimart.com'}
+            </div>
+            <div className="hero-profile-address">
+              📍 {currentUser?.address || 'Flat 101, Sunflower Apts, Mumbai 400001'}
+            </div>
+            <div className="hero-profile-wishlist-badge">
+              ❤️ My Wishlist: <strong>{wishlistCount} items</strong>
+            </div>
+          </div>
+        </div>
+
         <div className="hero-top-badge">
           🌾 100% Fresh & Authentic | Delivered directly from farmers & verified hubs
         </div>

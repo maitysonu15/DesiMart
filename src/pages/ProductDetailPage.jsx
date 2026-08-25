@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/common/ProductCard';
 
 export default function ProductDetailPage({ productId, navigateTo, onViewDetails }) {
   const { products, addToCart } = useCart();
   const { currentUser } = useAuth();
   const { showToast } = useToast();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const [qty, setQty] = useState(1);
   const [imgError, setImgError] = useState(false);
 
@@ -28,6 +30,7 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
   }
 
   const inStock = product.stock > 0;
+  const isFav = isInWishlist(product.id);
   const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
@@ -60,7 +63,16 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
       {/* 2-Column Split Layout matching mockup (media_1787570599220.png) */}
       <div className="pdp-split-container">
         {/* Left Column: Soft Mint Image Container Card */}
-        <div className="pdp-image-box">
+        <div className="pdp-image-box" style={{ position: 'relative' }}>
+          <button
+            className={`card-heart-btn ${isFav ? 'active' : ''}`}
+            onClick={() => toggleWishlist(product.id, product.name)}
+            title={isFav ? 'Remove from Wishlist' : 'Save to Wishlist'}
+            style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 10 }}
+          >
+            {isFav ? '❤️' : '🤍'}
+          </button>
+
           {product.image && !imgError ? (
             <img
               src={product.image}
@@ -117,6 +129,12 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
                 </button>
                 <button className="pdp-buy-now-btn" onClick={handleBuyNow}>
                   Buy Now
+                </button>
+                <button
+                  className="pdp-wishlist-pill-btn"
+                  onClick={() => toggleWishlist(product.id, product.name)}
+                >
+                  {isFav ? '❤️ Saved' : '🤍 Wishlist'}
                 </button>
               </div>
             </>

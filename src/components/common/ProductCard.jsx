@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 
 export default function ProductCard({ product, onViewDetails }) {
   const { addToCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const [imgError, setImgError] = useState(false);
 
   const inStock = product.stock > 0;
   const isLowStock = inStock && product.stock <= 15;
+  const isFav = isInWishlist(product.id);
+
+  const handleHeartClick = (e) => {
+    e.stopPropagation();
+    toggleWishlist(product.id, product.name);
+  };
 
   return (
     <div className="product-card-v2">
@@ -19,6 +27,16 @@ export default function ProductCard({ product, onViewDetails }) {
         {product.discountPercent > 0 && (
           <span className="card-badge-discount">-{product.discountPercent}%</span>
         )}
+
+        {/* Heart Wishlist Button */}
+        <button
+          className={`card-heart-btn ${isFav ? 'active' : ''}`}
+          onClick={handleHeartClick}
+          title={isFav ? 'Remove from Wishlist' : 'Save to Wishlist'}
+          aria-label="Wishlist toggle"
+        >
+          {isFav ? '❤️' : '🤍'}
+        </button>
 
         {product.image && !imgError ? (
           <img
