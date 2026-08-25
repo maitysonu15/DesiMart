@@ -39,24 +39,32 @@ export default function HomePage({ navigateTo, onViewDetails, onOpenProfile }) {
         {/* Top Right User Profile Box */}
         <div
           className="hero-profile-card-topright"
-          onClick={onOpenProfile}
-          title="Click to view full Profile & Wishlist details"
+          onClick={currentUser ? onOpenProfile : () => navigateTo('login')}
+          title={currentUser ? "Click to view full Profile & Wishlist details" : "Click to Sign In or Create Account"}
         >
           <div className="hero-profile-avatar">
             {currentUser ? currentUser.name.charAt(0).toUpperCase() : '👤'}
           </div>
           <div className="hero-profile-info">
             <div className="hero-profile-name">
-              {currentUser ? currentUser.name : 'Sonu Maity'}
+              {currentUser ? currentUser.name : 'Guest User'}
             </div>
             <div className="hero-profile-sub">
-              📱 {currentUser?.mobile || '9876543210'} • ✉️ {currentUser?.email || 'user@desimart.com'}
+              {currentUser ? (
+                `📱 ${currentUser.mobile || 'No Mobile'} • ✉️ ${currentUser.email}`
+              ) : (
+                '🔑 Not Signed In'
+              )}
             </div>
             <div className="hero-profile-address">
-              📍 {currentUser?.address || 'Flat 101, Sunflower Apts, Mumbai 400001'}
+              {currentUser ? (
+                `📍 ${currentUser.address || 'Click to set delivery address'}`
+              ) : (
+                '👉 Click here to Sign In or Register'
+              )}
             </div>
             <div className="hero-profile-wishlist-badge">
-              ❤️ My Wishlist: <strong>{wishlistCount} items</strong>
+              ❤️ Wishlist: <strong>{wishlistCount} saved items</strong>
             </div>
           </div>
         </div>

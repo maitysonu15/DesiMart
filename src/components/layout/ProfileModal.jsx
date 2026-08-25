@@ -48,53 +48,69 @@ export default function ProfileModal({ isOpen, onClose, navigateTo, initialTab =
           {/* TAB 1: PROFILE DETAILS */}
           {activeTab === 'details' ? (
             <div style={{ marginTop: '20px' }}>
-              <div className="profile-user-hero-badge">
-                <div className="user-avatar-circle">
-                  {currentUser ? currentUser.name.charAt(0).toUpperCase() : 'G'}
-                </div>
-                <div>
-                  <div className="user-display-name">
-                    {currentUser ? currentUser.name : 'Guest User'}
+              {currentUser ? (
+                /* AUTHENTICATED USER DETAILS */
+                <>
+                  <div className="profile-user-hero-badge">
+                    <div className="user-avatar-circle">
+                      {currentUser.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="user-display-name">{currentUser.name}</div>
+                      <div className="user-status-pill">VERIFIED MEMBER</div>
+                    </div>
                   </div>
-                  <div className="user-status-pill">
-                    {currentUser ? 'VERIFIED MEMBER' : 'GUEST SESSION'}
-                  </div>
-                </div>
-              </div>
 
-              <div className="profile-info-grid">
-                <div className="profile-info-item">
-                  <div className="info-lbl">📱 Mobile Number</div>
-                  <div className="info-val">
-                    {currentUser?.mobile || '9876543210'}
-                  </div>
-                </div>
+                  <div className="profile-info-grid">
+                    <div className="profile-info-item">
+                      <div className="info-lbl">📱 Mobile Number</div>
+                      <div className="info-val">{currentUser.mobile || 'Not provided'}</div>
+                    </div>
 
-                <div className="profile-info-item">
-                  <div className="info-lbl">✉️ Email Address</div>
-                  <div className="info-val">
-                    {currentUser?.email || 'user@desimart.com'}
-                  </div>
-                </div>
+                    <div className="profile-info-item">
+                      <div className="info-lbl">✉️ Email Address</div>
+                      <div className="info-val">{currentUser.email}</div>
+                    </div>
 
-                <div className="profile-info-item full-width">
-                  <div className="info-lbl">📍 Default Delivery Address</div>
-                  <div className="info-val">
-                    {currentUser?.address || 'Flat 101, Sunflower Apartments, Andheri West, Mumbai - 400053'}
+                    <div className="profile-info-item full-width">
+                      <div className="info-lbl">📍 Default Delivery Address</div>
+                      <div className="info-val">
+                        {currentUser.address || 'Address set during checkout'}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="profile-quick-stats-row">
-                <div className="stat-card-box">
-                  <div className="stat-num">{wishlistIds.length}</div>
-                  <div className="stat-lbl">Saved Items</div>
+                  <div className="profile-quick-stats-row">
+                    <div className="stat-card-box">
+                      <div className="stat-num">{wishlistIds.length}</div>
+                      <div className="stat-lbl">Saved Items</div>
+                    </div>
+                    <div className="stat-card-box">
+                      <div className="stat-num">Fast ⚡</div>
+                      <div className="stat-lbl">Express Delivery</div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* UNAUTHENTICATED GUEST PROMPT */
+                <div style={{ textAlign: 'center', padding: '24px 12px 12px' }}>
+                  <div className="empty-wishlist-icon">👤</div>
+                  <div className="empty-wishlist-title">Guest Session — Not Signed In</div>
+                  <p className="empty-wishlist-sub" style={{ maxWidth: '340px', margin: '8px auto 20px' }}>
+                    You are currently shopping as a guest. Please Sign In or Create an Account to save your details and wishlist across devices.
+                  </p>
+
+                  <button
+                    className="auth-submit-btn"
+                    onClick={() => {
+                      onClose();
+                      navigateTo('login');
+                    }}
+                  >
+                    Sign In / Create Account →
+                  </button>
                 </div>
-                <div className="stat-card-box">
-                  <div className="stat-num">Fast ⚡</div>
-                  <div className="stat-lbl">Express Delivery</div>
-                </div>
-              </div>
+              )}
             </div>
           ) : (
             /* TAB 2: MY WISHLIST */
