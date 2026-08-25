@@ -23,16 +23,14 @@ export function WishlistProvider({ children }) {
   }, [wishlistIds]);
 
   const toggleWishlist = (productId, productName = 'Item') => {
-    setWishlistIds((prev) => {
-      const exists = prev.includes(productId);
-      if (exists) {
-        showToast(`Removed "${productName}" from your Wishlist.`, '');
-        return prev.filter((id) => id !== productId);
-      } else {
-        showToast(`❤️ Saved "${productName}" to your Wishlist!`, 'success');
-        return [...prev, productId];
-      }
-    });
+    const exists = wishlistIds.includes(productId);
+    if (exists) {
+      setWishlistIds((prev) => prev.filter((id) => id !== productId));
+      showToast(`Removed "${productName}" from your Wishlist.`, '');
+    } else {
+      setWishlistIds((prev) => [...prev, productId]);
+      showToast(`❤️ Saved "${productName}" to your Wishlist!`, 'success');
+    }
   };
 
   const isInWishlist = (productId) => wishlistIds.includes(productId);
