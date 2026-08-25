@@ -66,7 +66,7 @@ export function CartProvider({ children }) {
     const cleanCode = (code || '').trim().toUpperCase();
     if (cleanCode === 'DESI10') {
       setPromoApplied(true);
-      showToast('Promo DESI10 applied — 10% discount added!', 'success');
+      showToast('Discount approved! 10% OFF applied.', 'success');
       return true;
     } else {
       showToast('Invalid promo code. Try DESI10.', 'error');
@@ -76,7 +76,7 @@ export function CartProvider({ children }) {
 
   const removePromo = () => {
     setPromoApplied(false);
-    showToast('Promo code DESI10 removed.', '');
+    showToast('Discount removed.', '');
   };
 
   const getCartTotals = () => {
