@@ -2007,3 +2007,90 @@ footer.site-footer {
   line-height: 1.5;
   margin-bottom: 24px;
 }
+
+/* Order Success Card */
+.order-success-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 44px 32px;
+  max-width: 580px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.success-icon-badge {
+  font-size: 3.8rem;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+.success-card-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0A502B;
+  margin-bottom: 8px;
+}
+.success-card-sub {
+  font-size: 0.92rem;
+  color: #475569;
+  max-width: 440px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.order-receipt-box {
+  width: 100%;
+  background: #F0FDF4;
+  border: 1px solid #DCFCE7;
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.receipt-lbl {
+  color: #475569;
+  font-weight: 600;
+}
+.receipt-val {
+  font-weight: 800;
+  color: #0F172A;
+}
+.receipt-val.green {
+  color: #15803D;
+}
+.receipt-val.uppercase {
+  text-transform: uppercase;
+}
+
+.receipt-address-box {
+  border-top: 1px dashed #BBF7D0;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+.receipt-address-text {
+  font-size: 0.86rem;
+  color: #0F172A;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.success-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
