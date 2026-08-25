@@ -201,14 +201,7 @@ export default function AuthPage({ isRegister = false, navigateTo }) {
           ) : (
             /* CREATE ACCOUNT MULTI-STEP FORM */
             <div style={{ marginTop: '18px' }}>
-              {/* Step Progress Bar */}
-              <div className="reg-step-indicator-bar">
-                <div className={`reg-step-pill ${regStep >= 1 ? 'active' : ''}`}>1. Details</div>
-                <div className="step-connector">→</div>
-                <div className={`reg-step-pill ${regStep >= 2 ? 'active' : ''}`}>2. OTP</div>
-                <div className="step-connector">→</div>
-                <div className={`reg-step-pill ${regStep >= 3 ? 'active' : ''}`}>3. Password</div>
-              </div>
+
 
               {/* STEP 1: Enter Name, Email & Mobile */}
               {regStep === 1 && (
