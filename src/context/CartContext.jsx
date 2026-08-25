@@ -74,6 +74,11 @@ export function CartProvider({ children }) {
     }
   };
 
+  const removePromo = () => {
+    setPromoApplied(false);
+    showToast('Promo code DESI10 removed.', '');
+  };
+
   const getCartTotals = () => {
     let subtotal = 0;
     cart.forEach((c) => {
@@ -114,6 +119,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         clearCart,
         applyPromo,
+        removePromo,
         getCartTotals,
         updateStockOnOrder
       }}
@@ -123,6 +129,9 @@ export function CartProvider({ children }) {
   );
 }
 
+export function useAuth() {
+  return useContext(CartContext);
+}
 export function useCart() {
   return useContext(CartContext);
 }

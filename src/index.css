@@ -1623,11 +1623,31 @@ header.navbar {
   background: #DCFCE7;
   border: 1px solid #86EFAC;
   border-radius: 10px;
-  padding: 8px 12px;
+  padding: 8px 14px;
   font-size: 0.82rem;
   color: #166534;
   font-weight: 700;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.promo-remove-btn {
+  background: #FEF2F2;
+  color: #EF4444;
+  border: 1px solid #FECACA;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.promo-remove-btn:hover {
+  background: #EF4444;
+  color: #FFFFFF;
+  border-color: #EF4444;
 }
 .cart-summary-line {
   display: flex;

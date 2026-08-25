@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import ProductCard from '../components/common/ProductCard';
 
 export default function OffersPage({ onViewDetails, navigateTo }) {
-  const { products, applyPromo, promoApplied } = useCart();
+  const { products, applyPromo, removePromo, promoApplied } = useCart();
   const offerItems = products.filter((p) => p.isOffer || p.price <= 500);
 
   return (
@@ -25,7 +25,7 @@ export default function OffersPage({ onViewDetails, navigateTo }) {
         <div style={{ marginTop: '16px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
           <button
             type="button"
-            onClick={() => applyPromo('DESI10')}
+            onClick={() => (promoApplied ? removePromo() : applyPromo('DESI10'))}
             style={{
               fontFamily: 'var(--font-mono)',
               fontWeight: 800,
@@ -39,10 +39,10 @@ export default function OffersPage({ onViewDetails, navigateTo }) {
               transition: 'all 0.15s ease'
             }}
           >
-            {promoApplied ? '✓ Code DESI10 Applied!' : 'Use Code: DESI10'}
+            {promoApplied ? '✓ Code DESI10 Applied (Click to Remove)' : 'Use Code: DESI10'}
           </button>
           <span style={{ fontSize: '0.9rem', color: '#166534', fontWeight: 700 }}>
-            {promoApplied ? '🎉 10% Discount Active across all items!' : '👈 Click to apply Extra 10% OFF at Checkout!'}
+            {promoApplied ? '🎉 10% Discount Active! Click button to remove.' : '👈 Click to apply Extra 10% OFF at Checkout!'}
           </span>
         </div>
       </div>

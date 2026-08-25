@@ -5,7 +5,7 @@ import { useOrders } from '../context/OrderContext';
 import { useToast } from '../context/ToastContext';
 
 export default function CheckoutPage({ navigateTo }) {
-  const { cart, cartCount, getCartTotals, applyPromo, promoApplied } = useCart();
+  const { cart, cartCount, getCartTotals, applyPromo, removePromo, promoApplied } = useCart();
   const { currentUser } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useToast();
@@ -255,7 +255,18 @@ export default function CheckoutPage({ navigateTo }) {
               <div className="drawer-promo-box" style={{ marginBottom: '16px' }}>
                 {promoApplied ? (
                   <div className="promo-applied-badge">
-                    <span>🎉 <strong>DESI10</strong> Applied — 10% Discount Active!</span>
+                    <span>🎉 <strong>DESI10</strong> Applied (10% OFF)</span>
+                    <button
+                      type="button"
+                      className="promo-remove-btn"
+                      onClick={() => {
+                        removePromo();
+                        setPromoInput('');
+                      }}
+                      title="Remove coupon discount"
+                    >
+                      ✕ Remove
+                    </button>
                   </div>
                 ) : (
                   <div className="drawer-promo-row">

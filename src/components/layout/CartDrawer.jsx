@@ -11,6 +11,7 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
     updateCartQty,
     removeFromCart,
     applyPromo,
+    removePromo,
     promoApplied,
     getCartTotals
   } = useCart();
@@ -184,7 +185,18 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
             <form onSubmit={handleApplyCoupon} className="drawer-promo-box">
               {promoApplied ? (
                 <div className="promo-applied-badge">
-                  <span>🎉 <strong>DESI10</strong> Applied — 10% Discount Active!</span>
+                  <span>🎉 <strong>DESI10</strong> Applied (10% OFF)</span>
+                  <button
+                    type="button"
+                    className="promo-remove-btn"
+                    onClick={() => {
+                      removePromo();
+                      setPromoInput('');
+                    }}
+                    title="Remove coupon discount"
+                  >
+                    ✕ Remove
+                  </button>
                 </div>
               ) : (
                 <div className="drawer-promo-row">
