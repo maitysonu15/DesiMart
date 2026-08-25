@@ -47,6 +47,13 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
     applyPromo(codeToUse);
   };
 
+  const handleRemoveCoupon = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removePromo();
+    setPromoInput('');
+  };
+
   return (
     <div className="cart-drawer-overlay" onClick={onClose}>
       <div className="cart-drawer-card" onClick={(e) => e.stopPropagation()}>
@@ -170,24 +177,21 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
         {cart.length > 0 && (
           <div className="cart-drawer-footer">
             {/* Promo / Coupon Box */}
-            <form onSubmit={handleApplyCoupon} className="drawer-promo-box">
+            <div className="drawer-promo-box">
               {promoApplied ? (
                 <div className="promo-applied-badge">
                   <span>🎉 <strong>DESI10</strong> Applied (10% OFF)</span>
                   <button
                     type="button"
                     className="promo-remove-btn"
-                    onClick={() => {
-                      removePromo();
-                      setPromoInput('');
-                    }}
+                    onClick={handleRemoveCoupon}
                     title="Remove coupon discount"
                   >
                     ✕ Remove
                   </button>
                 </div>
               ) : (
-                <div className="drawer-promo-row">
+                <form onSubmit={handleApplyCoupon} className="drawer-promo-row">
                   <input
                     type="text"
                     placeholder="Coupon code (e.g. DESI10)"
@@ -198,9 +202,9 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
                   <button type="submit" className="drawer-promo-btn">
                     Apply
                   </button>
-                </div>
+                </form>
               )}
-            </form>
+            </div>
 
             <div className="cart-summary-line">
               <span>Items Subtotal</span>
@@ -211,13 +215,6 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
               <div className="cart-summary-line green-text">
                 <span>Coupon Discount (DESI10)</span>
                 <span className="val">−₹{totals.couponDiscount.toLocaleString('en-IN')}</span>
-              </div>
-            )}
-
-            {totals.mrpSavings > 0 && (
-              <div className="cart-summary-line green-text" style={{ fontSize: '0.8rem', opacity: 0.9 }}>
-                <span>MRP Product Savings</span>
-                <span className="val">−₹{totals.mrpSavings.toLocaleString('en-IN')}</span>
               </div>
             )}
 

@@ -84,6 +84,13 @@ export default function CheckoutPage({ navigateTo }) {
     applyPromo(promoInput.trim() || 'DESI10');
   };
 
+  const handleRemoveCoupon = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removePromo();
+    setPromoInput('');
+  };
+
   return (
     <div className="checkout-modal-overlay">
       <div className="checkout-modal-card">
@@ -259,10 +266,7 @@ export default function CheckoutPage({ navigateTo }) {
                     <button
                       type="button"
                       className="promo-remove-btn"
-                      onClick={() => {
-                        removePromo();
-                        setPromoInput('');
-                      }}
+                      onClick={handleRemoveCoupon}
                       title="Remove coupon discount"
                     >
                       ✕ Remove
