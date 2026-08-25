@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useOrders } from '../context/OrderContext';
@@ -9,6 +9,15 @@ export default function CheckoutPage({ navigateTo }) {
   const { currentUser } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useToast();
+
+  useEffect(() => {
+    if (!currentUser) {
+      showToast('Please Sign In or Create an Account to proceed to Checkout.', 'error');
+      navigateTo('login');
+    }
+  }, [currentUser]);
+
+  if (!currentUser) return null;
 
   const totals = getCartTotals();
 

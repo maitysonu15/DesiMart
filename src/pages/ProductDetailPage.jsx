@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import ProductCard from '../components/common/ProductCard';
 
 export default function ProductDetailPage({ productId, navigateTo, onViewDetails }) {
   const { products, addToCart } = useCart();
+  const { currentUser } = useAuth();
+  const { showToast } = useToast();
   const [qty, setQty] = useState(1);
   const [imgError, setImgError] = useState(false);
 
@@ -38,7 +42,12 @@ export default function ProductDetailPage({ productId, navigateTo, onViewDetails
 
   const handleBuyNow = () => {
     addToCart(product.id, qty);
-    navigateTo('checkout');
+    if (!currentUser) {
+      showToast('Please Sign In or Create an Account to complete your purchase.', 'error');
+      navigateTo('login');
+    } else {
+      navigateTo('checkout');
+    }
   };
 
   return (
