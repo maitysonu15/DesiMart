@@ -2114,3 +2114,110 @@ footer.site-footer {
   flex-wrap: wrap;
   width: 100%;
 }
+
+/* Order History Card Styling */
+.order-history-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.order-history-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.order-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.order-history-id {
+  font-size: 0.95rem;
+  color: #0F172A;
+  font-weight: 600;
+}
+.order-history-id strong {
+  font-family: var(--font-mono);
+  color: #15803D;
+  font-weight: 800;
+}
+.order-history-date {
+  font-size: 0.78rem;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.order-status-badge {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #86EFAC;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16A34A;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3);
+}
+
+.order-history-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.order-item-pill {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.84rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.item-emoji { font-size: 1.1rem; }
+.item-name { font-weight: 700; color: #0F172A; }
+.item-qty { font-weight: 800; color: #15803D; }
+
+.order-history-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed #E2E8F0;
+  padding-top: 14px;
+  font-size: 0.86rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.order-shipping-text {
+  color: #475569;
+}
+.order-shipping-text strong {
+  color: #0F172A;
+}
+.order-total-badge {
+  color: #0F172A;
+  font-size: 0.95rem;
+}
+.order-total-badge strong {
+  color: #15803D;
+  font-size: 1.1rem;
+}

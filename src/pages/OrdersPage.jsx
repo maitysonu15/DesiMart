@@ -47,46 +47,52 @@ export default function OrdersPage({ navigateTo }) {
         </div>
       </div>
 
-      <div>
-        {userOrders.map((order) => (
-          <div key={order.id} className="order-card">
-            <div className="order-card-head">
-              <div>
-                <div className="order-id">{order.id}</div>
-                <div className="order-date">Placed on {order.date}</div>
+      <div style={{ marginTop: '20px' }}>
+        {userOrders.map((order) => {
+          const name = order.customer?.fullName || order.customer?.name || currentUser.name || 'Valued Customer';
+          const street = order.customer?.streetAddress || '';
+          const city = order.customer?.city || '';
+          const pin = order.customer?.pincode || order.customer?.pin || '';
+          const addressStr = [street, city, pin].filter(Boolean).join(', ');
+
+          return (
+            <div key={order.id} className="order-history-card">
+              {/* Order Card Top Header Bar */}
+              <div className="order-history-header">
+                <div>
+                  <div className="order-history-id">Order Ref: <strong>{order.id}</strong></div>
+                  <div className="order-history-date">📅 Placed on {order.date}</div>
+                </div>
+
+                <div className="order-status-badge">
+                  <span className="status-dot"></span>
+                  <span>CONFIRMED & PROCESSING</span>
+                </div>
               </div>
 
-              <span className={`order-status ${order.status}`}>
-                {order.status}
-              </span>
-            </div>
-
-            <div className="order-items-list">
-              {order.items.map((item, idx) => (
-                <span key={idx}>
-                  {item.emoji} {item.name} × {item.quantity}
-                  {idx < order.items.length - 1 ? ' | ' : ''}
-                </span>
-              ))}
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderTop: '1px dashed var(--border)',
-                paddingTop: '12px',
-                marginTop: '10px'
-              }}
-            >
-              <div style={{ fontSize: '0.82rem', color: 'var(--ink-dim)' }}>
-                Ship to: {order.customer.name}, {order.customer.city}
+              {/* Order Items List Grid */}
+              <div className="order-history-items">
+                {order.items.map((item, idx) => (
+                  <div key={idx} className="order-item-pill">
+                    <span className="item-emoji">{item.emoji || '🛍️'}</span>
+                    <span className="item-name">{item.name}</span>
+                    <span className="item-qty">× {item.quantity}</span>
+                  </div>
+                ))}
               </div>
-              <div className="order-total">Total Paid: ₹{order.total.toLocaleString('en-IN')}</div>
+
+              {/* Order Footer Row */}
+              <div className="order-history-footer">
+                <div className="order-shipping-text">
+                  📍 <strong>Ship to:</strong> {name} {addressStr ? `(${addressStr})` : ''}
+                </div>
+                <div className="order-total-badge">
+                  Total Paid: <strong>₹{order.total.toLocaleString('en-IN')}</strong>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
