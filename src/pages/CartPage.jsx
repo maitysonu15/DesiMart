@@ -21,12 +21,12 @@ export default function CartPage({ navigateTo }) {
   if (cart.length === 0) {
     return (
       <div className="container" style={{ paddingTop: '50px', paddingBottom: '70px' }}>
-        <div className="empty-state">
-          <div className="emoji">🛒</div>
-          <h3>Your Cart is Empty</h3>
-          <p>Explore our 17 departments and add items to your shopping cart.</p>
-          <button className="btn btn-primary" onClick={() => navigateTo('products')}>
-            Start Shopping
+        <div className="empty-state-card">
+          <div className="empty-state-icon">🛒</div>
+          <h2 className="empty-state-title">Your Cart is Empty</h2>
+          <p className="empty-state-sub">Explore our 17 departments and add fresh items to your shopping cart.</p>
+          <button className="hero-btn-primary" onClick={() => navigateTo('products')}>
+            Start Shopping →
           </button>
         </div>
       </div>

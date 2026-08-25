@@ -9,11 +9,12 @@ export default function OrdersPage({ navigateTo }) {
   if (!currentUser) {
     return (
       <div className="container" style={{ paddingTop: '50px', paddingBottom: '70px' }}>
-        <div className="empty-state">
-          <h3>Please Login</h3>
-          <p>Login to view your order history and live delivery tracking.</p>
-          <button className="btn btn-primary" onClick={() => navigateTo('login')}>
-            Login to Your Account
+        <div className="empty-state-card">
+          <div className="empty-state-icon">👤</div>
+          <h2 className="empty-state-title">Please Sign In</h2>
+          <p className="empty-state-sub">Sign In or Create an Account to view your order history and live delivery tracking.</p>
+          <button className="hero-btn-primary" onClick={() => navigateTo('login')}>
+            Sign In to Your Account →
           </button>
         </div>
       </div>
@@ -25,12 +26,12 @@ export default function OrdersPage({ navigateTo }) {
   if (userOrders.length === 0) {
     return (
       <div className="container" style={{ paddingTop: '50px', paddingBottom: '70px' }}>
-        <div className="empty-state">
-          <div className="emoji">📦</div>
-          <h3>No Orders Placed Yet</h3>
-          <p>Your completed purchases and order status will appear here.</p>
-          <button className="btn btn-primary" onClick={() => navigateTo('products')}>
-            Start Shopping
+        <div className="empty-state-card">
+          <div className="empty-state-icon">📦</div>
+          <h2 className="empty-state-title">No Orders Placed Yet</h2>
+          <p className="empty-state-sub">Your completed purchases and live order tracking will appear here. Start exploring our aisles!</p>
+          <button className="hero-btn-primary" onClick={() => navigateTo('products')}>
+            Start Shopping →
           </button>
         </div>
       </div>
@@ -72,7 +73,7 @@ export default function OrdersPage({ navigateTo }) {
             <div
               style={{
                 display: 'flex',
-                justify: 'space-between',
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 borderTop: '1px dashed var(--border)',
                 paddingTop: '12px',
