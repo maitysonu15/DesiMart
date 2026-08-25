@@ -49,22 +49,26 @@ export default function HomePage({ navigateTo, onViewDetails, onOpenProfile }) {
             <div className="hero-profile-name">
               {currentUser ? currentUser.name : 'Guest User'}
             </div>
-            <div className="hero-profile-sub">
-              {currentUser ? (
-                `📱 ${currentUser.mobile || 'No Mobile'} • ✉️ ${currentUser.email}`
-              ) : (
-                '🔑 Not Signed In'
-              )}
-            </div>
-            <div className="hero-profile-address">
-              {currentUser ? (
-                `📍 ${currentUser.address || 'Click to set delivery address'}`
-              ) : (
-                '👉 Click here to Sign In or Register'
-              )}
-            </div>
+
+            {currentUser ? (
+              <>
+                {currentUser.mobile && (
+                  <div className="hero-profile-sub">📱 {currentUser.mobile}</div>
+                )}
+                <div className="hero-profile-sub">✉️ {currentUser.email}</div>
+                <div className="hero-profile-address">
+                  📍 {currentUser.address || 'Click to set delivery address'}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="hero-profile-sub">🔑 Not Signed In</div>
+                <div className="hero-profile-address">👉 Click here to Sign In or Register</div>
+              </>
+            )}
+
             <div className="hero-profile-wishlist-badge">
-              ❤️ Wishlist: <strong>{wishlistCount} saved items</strong>
+              ❤️ Wishlist: <strong>{wishlistCount} saved item{wishlistCount === 1 ? '' : 's'}</strong>
             </div>
           </div>
         </div>
