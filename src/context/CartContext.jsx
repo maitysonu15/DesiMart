@@ -63,10 +63,10 @@ export function CartProvider({ children }) {
   };
 
   const applyPromo = (code) => {
-    const cleanCode = code.trim().toUpperCase();
+    const cleanCode = (code || '').trim().toUpperCase();
     if (cleanCode === 'DESI10') {
       setPromoApplied(true);
-      showToast('Promo DESI10 applied — 10% discount!', 'success');
+      showToast('Promo DESI10 applied — 10% discount added!', 'success');
       return true;
     } else {
       showToast('Invalid promo code. Try DESI10.', 'error');
@@ -81,16 +81,22 @@ export function CartProvider({ children }) {
 
   const getCartTotals = () => {
     let subtotal = 0;
+    let mrpTotal = 0;
+
     cart.forEach((c) => {
       const p = products.find((x) => x.id === c.productId);
-      if (p) subtotal += p.price * c.quantity;
+      if (p) {
+        subtotal += p.price * c.quantity;
+        mrpTotal += (p.originalPrice || p.price) * c.quantity;
+      }
     });
 
-    const delivery = subtotal === 0 || subtotal >= 999 ? 0 : 49;
-    const discount = promoApplied ? Math.round(subtotal * 0.10) : 0;
-    const total = subtotal + delivery - discount;
+    const delivery = subtotal === 0 || subtotal >= 499 ? 0 : 49;
+    const couponDiscount = promoApplied ? Math.round(subtotal * 0.10) : 0;
+    const mrpSavings = Math.max(0, mrpTotal - subtotal);
+    const total = Math.max(0, subtotal + delivery - couponDiscount);
 
-    return { subtotal, delivery, discount, total };
+    return { subtotal, delivery, couponDiscount, mrpSavings, total };
   };
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);

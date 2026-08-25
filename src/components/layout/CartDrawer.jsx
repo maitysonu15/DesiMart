@@ -30,18 +30,6 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
   const amountNeededForFree = Math.max(0, freeDeliveryThreshold - totals.subtotal);
   const progressPercent = Math.min(100, Math.round((totals.subtotal / freeDeliveryThreshold) * 100));
 
-  // Calculate total discount saved across all items
-  let totalDiscountSaved = 0;
-  cart.forEach((c) => {
-    const p = products.find((x) => x.id === c.productId);
-    if (p && p.originalPrice) {
-      totalDiscountSaved += (p.originalPrice - p.price) * c.quantity;
-    }
-  });
-  if (totals.discount > 0) {
-    totalDiscountSaved += totals.discount;
-  }
-
   const handleCheckoutClick = () => {
     if (!currentUser) {
       showToast('Please login or register to complete your checkout.', 'error');
@@ -219,17 +207,24 @@ export default function CartDrawer({ isOpen, onClose, navigateTo }) {
               <span className="val">₹{totals.subtotal.toLocaleString('en-IN')}</span>
             </div>
 
-            {totalDiscountSaved > 0 && (
+            {totals.couponDiscount > 0 && (
               <div className="cart-summary-line green-text">
-                <span>Total Discount Saved</span>
-                <span className="val">−₹{totalDiscountSaved.toLocaleString('en-IN')}</span>
+                <span>Coupon Discount (DESI10)</span>
+                <span className="val">−₹{totals.couponDiscount.toLocaleString('en-IN')}</span>
+              </div>
+            )}
+
+            {totals.mrpSavings > 0 && (
+              <div className="cart-summary-line green-text" style={{ fontSize: '0.8rem', opacity: 0.9 }}>
+                <span>MRP Product Savings</span>
+                <span className="val">−₹{totals.mrpSavings.toLocaleString('en-IN')}</span>
               </div>
             )}
 
             <div className="cart-summary-line">
               <span>Delivery Fee</span>
               <span className="val green-text">
-                {totals.subtotal >= 499 || totals.delivery === 0 ? 'FREE' : `₹${totals.delivery}`}
+                {totals.delivery === 0 ? 'FREE' : `₹${totals.delivery}`}
               </span>
             </div>
 
