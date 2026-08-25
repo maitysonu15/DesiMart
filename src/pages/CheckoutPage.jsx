@@ -6,7 +6,7 @@ import { useToast } from '../context/ToastContext';
 
 export default function CheckoutPage({ navigateTo }) {
   const { cart, cartCount, getCartTotals, applyPromo, removePromo, promoApplied } = useCart();
-  const { currentUser } = useAuth();
+  const { currentUser, updateUserProfile } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useToast();
 
@@ -24,7 +24,7 @@ export default function CheckoutPage({ navigateTo }) {
   // Delivery Address State
   const [fullName, setFullName] = useState(currentUser?.name || '');
   const [mobileNumber, setMobileNumber] = useState(currentUser?.mobile || '');
-  const [streetAddress, setStreetAddress] = useState(currentUser?.address || '');
+  const [streetAddress, setStreetAddress] = useState(currentUser?.address ? currentUser.address.split(',')[0] : '');
   const [city, setCity] = useState('');
   const [pincode, setPincode] = useState('');
 
@@ -54,12 +54,19 @@ export default function CheckoutPage({ navigateTo }) {
 
     setIsPlacingOrder(true);
 
+    const fullAddress = `${streetAddress.trim()}, ${city.trim()} - ${pincode.trim()}`;
+    updateUserProfile({
+      name: fullName.trim(),
+      mobile: mobileNumber.trim(),
+      address: fullAddress
+    });
+
     const customer = {
-      fullName,
-      mobileNumber,
-      streetAddress,
-      city,
-      pincode,
+      fullName: fullName.trim(),
+      mobileNumber: mobileNumber.trim(),
+      streetAddress: streetAddress.trim(),
+      city: city.trim(),
+      pincode: pincode.trim(),
       paymentMethod
     };
 

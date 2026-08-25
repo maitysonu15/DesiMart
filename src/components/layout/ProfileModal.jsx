@@ -2,16 +2,32 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useToast } from '../../context/ToastContext';
 
 export default function ProfileModal({ isOpen, onClose, navigateTo, initialTab = 'details' }) {
-  const { currentUser } = useAuth();
+  const { currentUser, updateUserProfile } = useAuth();
   const { products, addToCart } = useCart();
   const { wishlistIds, toggleWishlist } = useWishlist();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState(initialTab);
+
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [addressInput, setAddressInput] = useState(currentUser?.address || '');
 
   if (!isOpen) return null;
 
   const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
+
+  const handleSaveAddress = (e) => {
+    e.preventDefault();
+    if (!addressInput.trim()) {
+      showToast('Please enter a valid delivery address.', 'error');
+      return;
+    }
+    updateUserProfile({ address: addressInput.trim() });
+    setIsEditingAddress(false);
+    showToast('Default delivery address updated successfully!', 'success');
+  };
 
   return (
     <div className="auth-modal-overlay" onClick={onClose}>
@@ -73,10 +89,56 @@ export default function ProfileModal({ isOpen, onClose, navigateTo, initialTab =
                     </div>
 
                     <div className="profile-info-item full-width">
-                      <div className="info-lbl">📍 Default Delivery Address</div>
-                      <div className="info-val">
-                        {currentUser.address || 'Address set during checkout'}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                        <div className="info-lbl">📍 Default Delivery Address</div>
+                        {!isEditingAddress && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAddressInput(currentUser.address || '');
+                              setIsEditingAddress(true);
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#16A34A',
+                              fontWeight: 700,
+                              fontSize: '0.82rem',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            ✏️ Edit Address
+                          </button>
+                        )}
                       </div>
+
+                      {isEditingAddress ? (
+                        <form onSubmit={handleSaveAddress} style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                          <input
+                            type="text"
+                            className="auth-mint-input"
+                            style={{ flex: 1, padding: '8px 12px', fontSize: '0.86rem' }}
+                            value={addressInput}
+                            onChange={(e) => setAddressInput(e.target.value)}
+                            placeholder="Enter street, city & pincode"
+                          />
+                          <button type="submit" className="auth-submit-btn" style={{ width: 'auto', padding: '8px 16px', fontSize: '0.84rem' }}>
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-ghost"
+                            style={{ padding: '8px 12px', fontSize: '0.84rem' }}
+                            onClick={() => setIsEditingAddress(false)}
+                          >
+                            Cancel
+                          </button>
+                        </form>
+                      ) : (
+                        <div className="info-val">
+                          {currentUser.address || 'Address set during checkout'}
+                        </div>
+                      )}
                     </div>
                   </div>
 

@@ -45,13 +45,22 @@ export function AuthProvider({ children }) {
     return true;
   };
 
+  const updateUserProfile = (updates) => {
+    setCurrentUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...updates };
+      setUsers((all) => all.map((u) => (u.email === prev.email ? updated : u)));
+      return updated;
+    });
+  };
+
   const logout = () => {
     setCurrentUser(null);
     showToast('You have been logged out.', '');
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, register, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, register, updateUserProfile, logout }}>
       {children}
     </AuthContext.Provider>
   );
