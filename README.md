@@ -1,43 +1,57 @@
-# DesiMart
+# 🛒 DesiMart - Fresh & Fast Grocery Fullstack App
 
-A modern, fast, and responsive grocery & e-commerce storefront built with **React 19** and **Vite**.
+Complete fullstack e-commerce web application with React 19 UI, Vite, and Node.js Express backend API with real OTP email & SMS capabilities.
 
-## Features
+## 📁 Project Structure
 
-- 🌿 **Light Green & Fresh Emerald Design System:** Sleek typography, glossy cards, and high-contrast accents.
-- 🛒 **Full Product Catalog:** 17+ departments including Grocery & Staples, Fresh Fruits & Veggies, Dairy, Electronics, Fashion, and more.
-- 🔍 **Live Search & Filter:** Instant keyword search and sorting by popularity, price, rating, and name.
-- 🛍️ **Interactive Slide-over Cart:** Real-time quantity adjustments, free delivery progress tracker (unlocks at ₹499), and savings breakdown.
-- 👤 **Account Authentication & Management:** Sign in / Log in and Sign up tabs with profile and address management.
-- 📦 **Order Management:** Place demo orders with COD, UPI, or Card payments and track them in My Orders.
-- 📱 **Fully Responsive:** Beautifully adapts across mobile, tablet, and desktop screens.
+```
+DesiMart/
+├── backend/                  # Node.js Express API Server
+│   ├── .env                  # Real Email & SMS credentials
+│   ├── .env.example          # Sample environment configuration
+│   ├── package.json          # Backend dependencies
+│   └── server.js             # Express OTP API Endpoint
+│
+├── frontend/                 # React 19 + Vite Frontend UI
+│   ├── package.json          # Frontend dependencies
+│   ├── vite.config.js        # Vite config
+│   ├── index.html            # Entry HTML
+│   └── src/                  # Components, Pages, Context & Utilities
+│
+├── package.json              # Fullstack runner scripts
+└── README.md                 # Project documentation
+```
 
-## Getting Started
+## 🚀 Quick Start Guide
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
-
+### 1. Start Both Frontend & Backend Concurrently
+From the root directory, run:
 ```bash
-# Clone the repository
-git clone https://github.com/maitysonu15/DesiMart.git
-
-# Navigate to project directory
-cd DesiMart
-
-# Install dependencies
-npm install
-
-# Run the local development server
 npm run dev
 ```
 
-### Production Build
-
+### 2. Run Frontend Only
 ```bash
-npm run build
-npm run preview
+cd frontend
+npm run dev
 ```
-# DesiMart
+Frontend runs at: `http://localhost:5173/`
+
+### 3. Run Backend Only
+```bash
+cd backend
+npm run start
+```
+Backend runs at: `http://localhost:5000/`
+
+---
+
+## 🔑 Real Email & SMS Configuration
+
+Open `backend/.env` and enter your credentials:
+
+```env
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_16_char_gmail_app_password
+FAST2SMS_API_KEY=your_fast2sms_key
+```
